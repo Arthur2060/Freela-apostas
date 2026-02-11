@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Tela de admin</title>
+</head>
+<body>
+    <main>
+        <div id="nav-container">
+            <img src="" alt="Foto do admin" class="admin-photo">
+            <nav>
+                <ul>
+                    <li class="nav-op" id="jogadores">Jogadores</li>
+                    <li class="nav-op" id="apostas">Apostas</li>
+                    <li class="nav-op" id="ranking">Ranking</li>
+                </ul>
+            </nav>
+        </div>
+        <div id="principal-container">
+
+        </div>
+        <div id="add-container">
+            <form>
+                <label for="nome">Nome:</label>
+                <input type="text" name="nome" id="nome" placeholder="Nome" required>
+                <label for="nivel">Nivel:</label>
+                <select name="nivel" id="nivel">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+                <input type="button" id="add-button" value="Adicionar">
+            </form>
+        </div>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
