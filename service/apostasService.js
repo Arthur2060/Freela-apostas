@@ -4,13 +4,34 @@ const { calculate } = require("../utils/oddCalculator.js")
 const ENTITY_NAME = "apostas"
 
 exports.get = async () => {
-    const snapshot = await db.collection(ENTITY_NAME).get();
 
-    return snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-    }))
-}
+    const snapshot = await db.collection("apostas").get();
+
+    const apostas = [];
+
+    for (const doc of snapshot.docs) {
+
+        const data = doc.data();
+
+        const p1 = await db.collection("jogadores")
+            .doc(data.primeiroJogadorId)
+            .get();
+
+        const p2 = await db.collection("jogadores")
+            .doc(data.segundoJogadorId)
+            .get();
+
+        apostas.push({
+            id: doc.id,
+            ...data,
+            primeiroJogadorNome: p1.exists ? p1.data().nome : "Desconhecido",
+            segundoJogadorNome: p2.exists ? p2.data().nome : "Desconhecido"
+        });
+    }
+
+    return apostas;
+};
+
 
 exports.getById = async (id) => {
     const docRef = db.collection(ENTITY_NAME).doc(id);
@@ -103,7 +124,7 @@ exports.encerrar = async (id, resultado) => {
 
         let odd;
 
-        switch (resultado) {
+        switch (Number(resultado)) {
             case 0:
                 odd = apostaData.oddVitoriaPrimeiro;
                 break;
@@ -125,7 +146,7 @@ exports.encerrar = async (id, resultado) => {
 
             const palpite = palpiteDoc.data();
 
-            if (palpite.valor === resultado) {
+            if (palpite.valor === Number(resultado)) {
 
                 const apostadorRef = db.collection("apostadores")
                     .doc(palpite.apostadorId);

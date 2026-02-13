@@ -1,5 +1,5 @@
 :root {
-    --green: #1aff00;
+    --primary: #19ff00;
     --dark: #111;
     --card: #1c1c1c;
     --border: #2a2a2a;
@@ -7,18 +7,18 @@
 
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', sans-serif;
     background: var(--dark);
     color: white;
 }
 
 header {
-    background: #000;
+    background: black;
     padding: 20px;
     text-align: center;
-    font-size: 22px;
-    color: var(--green);
+    color: var(--primary);
     font-weight: bold;
+    letter-spacing: 1px;
 }
 
 nav {
@@ -32,12 +32,13 @@ nav button {
     background: none;
     border: none;
     color: white;
-    cursor: pointer;
     font-weight: bold;
+    cursor: pointer;
 }
 
-nav button.active {
-    background: var(--green);
+nav button.active,
+nav button:hover {
+    background: var(--primary);
     color: black;
 }
 
@@ -58,55 +59,93 @@ nav button.active {
 .cards {
     flex: 2;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 15px;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
 }
 
 .card {
     background: var(--card);
     padding: 20px;
-    border-radius: 8px;
+    border-radius: 10px;
     border: 1px solid var(--border);
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 15px rgba(0,255,0,0.15);
 }
 
 .form {
     flex: 1;
     background: var(--card);
     padding: 20px;
-    border-radius: 8px;
+    border-radius: 10px;
     border: 1px solid var(--border);
 }
 
-input,
-select {
+input, select {
     width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
+    padding: 10px;
+    margin-bottom: 12px;
     background: #222;
     border: 1px solid var(--border);
     color: white;
+    border-radius: 6px;
 }
 
 button.primary {
-    background: var(--green);
-    border: none;
+    background: var(--primary);
+    color: black;
     padding: 10px;
+    border: none;
+    border-radius: 6px;
+    width: 100%;
     font-weight: bold;
     cursor: pointer;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
+.logout-btn {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    padding: 8px 14px;
+    background: #e53935;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
 }
 
-th,
-td {
-    padding: 10px;
-    border-bottom: 1px solid var(--border);
+#rankingBody tr {
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: white;
 }
 
-th {
-    text-align: left;
-    color: var(--green);
+/* Ouro */
+#rankingBody tr:nth-child(1) {
+    background: #ccb233;
+    border-left: 6px solid #f4b400;
+    color: #5a4b00; /* 👈 texto mais escuro para fundo amarelo */
+}
+
+/* Prata */
+#rankingBody tr:nth-child(2) {
+    background: #949494;
+    border-left: 6px solid #9e9e9e;
+    color: #333; /* 👈 texto escuro neutro */
+}
+
+/* Bronze */
+#rankingBody tr:nth-child(3) {
+    background: #964b00;
+    border-left: 6px solid #ef6c00;
+    color: #5a2d00; /* 👈 texto escuro*/
 }

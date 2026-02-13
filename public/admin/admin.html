@@ -9,7 +9,7 @@
 
 <body>
 
-    <header>PAINEL ADMIN - SISTEMA DE APOSTAS</header>
+    <header>PAINEL ADMIN - SISTEMA DE APOSTAS <button class="logout-btn" onclick="logout()">Logout</button></header>
 
     <nav>
         <button onclick="showTab('jogadores')" class="active">Jogadores</button>
@@ -17,7 +17,6 @@
         <button onclick="showTab('ranking')">Ranking</button>
     </nav>
 
-    <!-- JOGADORES -->
     <div id="jogadores" class="tab active">
         <div class="grid">
             <div class="cards" id="jogadoresCards"></div>
@@ -31,7 +30,6 @@
         </div>
     </div>
 
-    <!-- APOSTAS -->
     <div id="apostas" class="tab">
         <div class="grid">
             <div class="cards" id="apostasCards"></div>
@@ -45,17 +43,14 @@
         </div>
     </div>
 
-    <!-- RANKING -->
     <div id="ranking" class="tab">
         <h3>Ranking de Apostadores</h3>
         <table>
-            <thead>
-                <tr>
-                    <th>Posição</th>
-                    <th>Nome</th>
-                    <th>Pontuação</th>
-                </tr>
-            </thead>
+            <tr>
+                <th>Posição</th>
+                <th>Nome</th>
+                <th>Pontuação</th>
+            </tr>
             <tbody id="rankingBody"></tbody>
         </table>
     </div>

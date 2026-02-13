@@ -9,7 +9,7 @@
 
 <body>
 
-    <header>ÁREA DO APOSTADOR</header>
+    <header><p id="header-nome"></p>ÁREA DO APOSTADOR <button class="logout-btn" onclick="logout()">Logout</button></header>
 
     <nav>
         <button onclick="showTab('apostas')" class="active">Apostas</button>
@@ -17,27 +17,22 @@
         <button onclick="showTab('ranking')">Ranking</button>
     </nav>
 
-    <!-- APOSTAS -->
     <div id="apostas" class="tab active">
         <div class="cards" id="apostasCards"></div>
     </div>
 
-    <!-- JOGADORES (somente visualização) -->
     <div id="jogadores" class="tab">
         <div class="cards" id="jogadoresCards"></div>
     </div>
 
-    <!-- RANKING -->
     <div id="ranking" class="tab">
         <h3>Ranking</h3>
         <table>
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Nome</th>
-                    <th>Pontuação</th>
-                </tr>
-            </thead>
+            <tr>
+                <th>#</th>
+                <th>Nome</th>
+                <th>Pontuação</th>
+            </tr>
             <tbody id="rankingBody"></tbody>
         </table>
     </div>

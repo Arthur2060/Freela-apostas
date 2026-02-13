@@ -11,7 +11,7 @@ exports.get = async (req, res) => {
 
 exports.getById = async (req, res) => {
     try {
-        const data = await service.getById();
+        const data = await service.getById(req.params.id);
         res.json(data)
     } catch (error) {
         res.status(500).json({ error: error.message });

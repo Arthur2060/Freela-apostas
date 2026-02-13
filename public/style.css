@@ -1,54 +1,69 @@
 :root {
-    --green: #1aff00;
-    --dark: #111;
-    --card: #1c1c1c;
-    --border: #2a2a2a;
+    --primary: #4CAF50;
+    --bg-main: #f2f2f2;
+    --card: #ffffff;
+    --border: #dcdcdc;
+    --text-dark: #333;
 }
 
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
-    background: var(--dark);
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #000, #1a1a1a);
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    color: white;
 }
 
 .container {
-    background: var(--card);
+    background: var(--text-dark);
     padding: 40px;
-    border-radius: 10px;
-    width: 350px;
+    border-radius: 12px;
+    width: 380px;
+    box-shadow: 0 0 25px rgba(0, 255, 0, 0.15);
     border: 1px solid var(--border);
 }
 
 h2 {
     text-align: center;
-    color: var(--green);
+    color: var(--primary);
+    margin-bottom: 30px;
+    letter-spacing: 1px;
 }
 
 input {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     margin-bottom: 15px;
-    background: #222;
+    background: var(--input);
     border: 1px solid var(--border);
     color: white;
+    border-radius: 6px;
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--primary);
 }
 
 button {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
+    border-radius: 6px;
     font-weight: bold;
-    cursor: pointer;
     border: none;
-    margin-bottom: 10px;
+    cursor: pointer;
+    transition: 0.3s;
 }
 
 button.primary {
-    background: var(--green);
+    background: var(--primary);
+    color: black;
+}
+
+button.primary:hover {
+    transform: scale(1.03);
 }
 
 button.secondary {
@@ -58,13 +73,14 @@ button.secondary {
 
 .link {
     text-align: center;
+    margin-top: 15px;
+    color: var(--primary);
     cursor: pointer;
-    color: var(--green);
     font-size: 14px;
 }
 
 .error {
-    color: red;
     text-align: center;
     margin-top: 10px;
+    color: red;
 }

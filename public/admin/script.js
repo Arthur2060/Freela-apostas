@@ -1,5 +1,8 @@
-
 const API = "http://localhost:3000";
+
+if (!localStorage.getItem("admin")) {
+    window.location.href = "/";
+}
 
 function showTab(id) {
     document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
@@ -9,9 +12,6 @@ function showTab(id) {
     event.target.classList.add("active");
 }
 
-// ==========================
-// JOGADORES
-// ==========================
 async function loadJogadores() {
     const res = await fetch(`${API}/jogadores`);
     const data = await res.json();
@@ -51,9 +51,6 @@ async function addJogador() {
     loadJogadores();
 }
 
-// ==========================
-// APOSTAS
-// ==========================
 async function loadApostas() {
     const res = await fetch(`${API}/apostas`);
     const data = await res.json();
@@ -61,27 +58,80 @@ async function loadApostas() {
     const cards = document.getElementById("apostasCards");
     cards.innerHTML = "";
 
-    const jogador1 = await fetch(`${API}/jogadores/${primeiroJogadorId}`);
-    const jogador2 = await fetch(`${API}/jogadores/${segundoJogadorId}`);
-
-    if (!jogador1.ok || !jogador2.ok) {
-        cards.innerHTML = "<p>Erro ao carregar apostas.</p>";
-        return;
-    }
-
-    const jogador1Data = await jogador1.json();
-    const jogador2Data = await jogador2.json();
-
     data.forEach(a => {
+
+        const aberta = a.resultado === null;
+
         cards.innerHTML += `
             <div class="card">
-                <p><strong>${jogador1Data.nome}</strong> vs <strong>${jogador2Data.nome}</strong></p>
-                <p>Resultado: ${a.resultado === null ? "Aberta" : a.resultado}</p>
-                <p>Odds: ${a.oddVitoriaPrimeiro} | ${a.oddEmpate} | ${a.oddVitoriaSegundo}</p>
+                <p>
+                    <strong>${a.primeiroJogadorNome || a.primeiroJogadorId}</strong> 
+                    vs 
+                    <strong>${a.segundoJogadorNome || a.segundoJogadorId}</strong>
+                </p>
+
+                <p>
+                    Odds: 
+                    ${a.oddVitoriaPrimeiro} | 
+                    ${a.oddEmpate} | 
+                    ${a.oddVitoriaSegundo}
+                </p>
+
+                <p>
+                    Status: 
+                    ${aberta ? "🟢 Aberta" : "🔴 Encerrada"}
+                </p>
+
+                ${
+                    aberta
+                    ? `
+                        <select id="resultado-${a.id}">
+                            <option value="0">Vitória ${a.primeiroJogadorNome || "Jogador 1"}</option>
+                            <option value="1">Empate</option>
+                            <option value="2">Vitória ${a.segundoJogadorNome || "Jogador 2"}</option>
+                        </select>
+
+                        <button class="primary" onclick="encerrarAposta('${a.id}')">
+                            Encerrar Aposta
+                        </button>
+                      `
+                    : `
+                        <p>Resultado: ${
+                            a.resultado == 0 ? a.primeiroJogadorNome :
+                            a.resultado == 1 ? "Empate" :
+                            a.segundoJogadorNome
+                        }</p>
+                      `
+                }
             </div>
         `;
     });
 }
+
+async function encerrarAposta(id) {
+    const select = document.getElementById(`resultado-${id}`);
+    const resultado = select.value;
+
+    const res = await fetch(`${API}/apostas/encerrar/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            resultado
+        })
+    });
+
+    alert(resultado)
+
+    
+    if (!res.ok) { 
+        alert("Erro ao encerrar aposta: " + (await res.json()).error);
+        return;
+    }
+    
+    alert("Aposta encerrada!");
+    loadApostas();
+}
+
 
 async function addAposta() {
     const p1 = document.getElementById("selectJogador1").value;
@@ -99,9 +149,11 @@ async function addAposta() {
     loadApostas();
 }
 
-// ==========================
-// RANKING
-// ==========================
+function logout() {
+    localStorage.clear();
+    window.location.href = "/";
+}
+
 async function loadRanking() {
     const res = await fetch(`${API}/apostadores`);
     const data = await res.json();
@@ -114,15 +166,14 @@ async function loadRanking() {
     data.forEach((a, index) => {
         tbody.innerHTML += `
             <tr>
-                <td>${index + 1}</td>
-                <td>${a.nome}</td>
-                <td>${a.pontuacao || 0}</td>
+                <th>${index + 1}</th>
+                <th>${a.nome}</th>
+                <th>${a.pontuacao || 0}</th>
             </tr>
         `;
     });
 }
 
-// INIT
 loadJogadores();
 loadApostas();
 loadRanking();

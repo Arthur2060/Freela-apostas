@@ -1,15 +1,14 @@
 const API = "http://localhost:3000";
 const user = JSON.parse(localStorage.getItem("apostador"));
 
-if (!user) {
-    window.location.href = "login.html";
+if (!user || user.id == undefined) {
+    window.location.href = "/";
 }
 
-const APOSTADOR_ID = user.id;
+const APOSTADOR_ID = user.id; // ✅ agora funciona
 
-// =========================
-// Navegação
-// =========================
+document.querySelector("#header-nome").innerText = user.nome;
+
 function showTab(id) {
     document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
     document.querySelectorAll("nav button").forEach(b => b.classList.remove("active"));
@@ -18,9 +17,6 @@ function showTab(id) {
     event.target.classList.add("active");
 }
 
-// =========================
-// Jogadores (visualização)
-// =========================
 async function loadJogadores() {
     const res = await fetch(`${API}/jogadores`);
     const data = await res.json();
@@ -38,9 +34,11 @@ async function loadJogadores() {
     });
 }
 
-// =========================
-// Apostas (com botões)
-// =========================
+function logout() {
+    localStorage.clear();
+    window.location.href = "/";
+}
+
 async function loadApostas() {
     const res = await fetch(`${API}/apostas`);
     const data = await res.json();
@@ -51,9 +49,14 @@ async function loadApostas() {
     container.innerHTML = "";
 
     abertas.forEach(a => {
+        
+        const jogador1 = fetch(`${API}/jogadores/${a.primeiroJogadorId}`);
+        const jogador2 = fetch(`${API}/jogadores/${a.segundoJogadorId}`);
+
+
         container.innerHTML += `
             <div class="card">
-                <p><strong>${a.primeiroJogadorId}</strong> vs <strong>${a.segundoJogadorId}</strong></p>
+                <p><strong>${jogador1.nome}</strong> vs <strong>${jogador2.nome}</strong></p>
 
                 <button class="primary" onclick="fazerPalpite('${a.id}', 0)">
                     Vitória Jogador 1 (${a.oddVitoriaPrimeiro})
@@ -71,12 +74,9 @@ async function loadApostas() {
     });
 }
 
-// =========================
-// Fazer palpite
-// =========================
 async function fazerPalpite(apostaId, valor) {
 
-    await fetch(`${API}/palpites`, {
+    const resp = await fetch(`${API}/palpites`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -86,12 +86,11 @@ async function fazerPalpite(apostaId, valor) {
         })
     });
 
-    alert("Palpite realizado!");
+    if (!resp.ok) {
+        alert("Erro ao fazer palpite: " + (await resp.json()).error);
+    }
 }
 
-// =========================
-// Ranking
-// =========================
 async function loadRanking() {
     const res = await fetch(`${API}/apostadores`);
     const data = await res.json();
@@ -104,15 +103,14 @@ async function loadRanking() {
     data.forEach((a, index) => {
         tbody.innerHTML += `
             <tr>
-                <td>${index + 1}</td>
-                <td>${a.nome}</td>
-                <td>${a.pontuacao || 0}</td>
+                <th>${index + 1}</th>
+                <th>${a.nome}</th>
+                <th>${a.pontuacao || 0}</th>
             </tr>
         `;
     });
 }
 
-// INIT
 loadJogadores();
 loadApostas();
 loadRanking();

@@ -20,6 +20,12 @@ async function login() {
     const nome = document.getElementById("loginNome").value;
     const senha = document.getElementById("loginSenha").value;
 
+    if (nome === "Admin" && senha === "Admin1302") {
+        localStorage.setItem("admin", "true");
+        window.location.href = "/admin/admin.html";
+        return;
+    }
+
     const res = await fetch(`${API}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -33,7 +39,10 @@ async function login() {
 
     const data = await res.json();
 
-    localStorage.setItem("apostador", JSON.stringify(data));
+    // salva apenas o user
+    localStorage.setItem("apostador", JSON.stringify(data.user));
+    localStorage.setItem("token", data.token);
+
     window.location.href = "/apostador/apostador.html";
 }
 
