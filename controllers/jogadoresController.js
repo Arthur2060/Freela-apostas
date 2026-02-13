@@ -20,7 +20,7 @@ exports.getById = async (req, res) => {
 
 exports.add = async (req, res) => {
     try {
-        const data = await service.add(req);
+        const data = await service.add(req.body);
         res.json(data)
     } catch (error) {
         res.status(500).json({ error: error.message });

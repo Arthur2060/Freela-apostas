@@ -27,21 +27,27 @@ exports.getById = async (id) => {
 }
 
 exports.add = async (entity) => {
+
     const { primeiroJogadorId, segundoJogadorId, ...rest } = entity;
 
-    const [p1, p2] = await Promise.all(
-        db.collection("jogadores").doc(primeiroJogadorId).get(),
-        db.collection("jogadores").doc(segundoJogadorId).get()
-    )
-
-    if (!p1.exists || !p2.exists) {
-        throw new Error("Jogadores não encontrados no sistema!");
+    if (!primeiroJogadorId || !segundoJogadorId) {
+        throw new Error("Jogadores são obrigatórios");
     }
 
-    const player1 = p1.data();
-    const player2 = p2.data();
+    if (primeiroJogadorId === segundoJogadorId) {
+        throw new Error("Jogadores não podem ser iguais");
+    }
 
-    const odds = calculate(player1.nivel, player2.nivel);
+    const [p1, p2] = await Promise.all([
+        db.collection("jogador").doc(primeiroJogadorId).get(),
+        db.collection("jogador").doc(segundoJogadorId).get()
+    ]);
+
+    if (!p1.exists || !p2.exists) {
+        throw new Error("Jogadores não encontrados!");
+    }
+
+    const odds = calculate(Number(p1.data().nivel), Number(p2.data().nivel));
 
     const newEntity = {
         ...rest,
@@ -53,14 +59,13 @@ exports.add = async (entity) => {
         oddEmpate: odds.emp
     };
 
-
     const resp = await db.collection(ENTITY_NAME).add(newEntity);
 
     return {
         id: resp.id,
         ...newEntity
     };
-}
+};
 
 exports.update = async (id, entity) => {
     const docRef = db.collection(ENTITY_NAME).doc(id);

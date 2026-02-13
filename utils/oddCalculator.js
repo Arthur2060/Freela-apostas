@@ -1,4 +1,4 @@
-exports.calculate = async (nivel1, nivel2) => {
+exports.calculate = (nivel1, nivel2) => {
 
         const diff = Math.abs(nivel1 - nivel2);
 
@@ -10,5 +10,5 @@ exports.calculate = async (nivel1, nivel2) => {
             4: { v1: 6.0, v2: 1.3, emp: 7.0 }
         }
         
-        return tabelaOdds[diff] || tabelaOdds[4];
+        return tabelaOdds[diff] ?? tabelaOdds[4];
     }
