@@ -58,16 +58,22 @@ async function loadApostas() {
     const cards = document.getElementById("apostasCards");
     cards.innerHTML = "";
 
-    data.forEach(a => {
+    data.forEach(async (a) => {
 
         const aberta = a.resultado === null;
+
+        const respPrimeiro = await fetch(`${API}/jogadores/${a.primeiroJogadorId}`);
+        const respSegundo = await fetch(`${API}/jogadores/${a.segundoJogadorId}`);
+
+        const primeiro = await respPrimeiro.json();
+        const segundo = await respSegundo.json();
 
         cards.innerHTML += `
             <div class="card">
                 <p>
-                    <strong>${a.primeiroJogadorNome || a.primeiroJogadorId}</strong> 
+                    <strong>${primeiro.nome || "Jogador 1"}</strong> 
                     vs 
-                    <strong>${a.segundoJogadorNome || a.segundoJogadorId}</strong>
+                    <strong>${segundo.nome || "Jogador 2"}</strong>
                 </p>
 
                 <p>
@@ -86,9 +92,9 @@ async function loadApostas() {
                     aberta
                     ? `
                         <select id="resultado-${a.id}">
-                            <option value="0">Vitória ${a.primeiroJogadorNome || "Jogador 1"}</option>
+                            <option value="0">Vitória ${primeiro.nome || "Jogador 1"}</option>
                             <option value="1">Empate</option>
-                            <option value="2">Vitória ${a.segundoJogadorNome || "Jogador 2"}</option>
+                            <option value="2">Vitória ${segundo.nome || "Jogador 2"}</option>
                         </select>
 
                         <button class="primary" onclick="encerrarAposta('${a.id}')">
