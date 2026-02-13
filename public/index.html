@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Sistema de Apostas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- LOGIN -->
+        <div id="loginBox">
+            <h2>Login Apostador</h2>
+
+            <input id="loginNome" placeholder="Nome">
+            <input id="loginSenha" type="password" placeholder="Senha">
+
+            <button class="primary" onclick="login()">Entrar</button>
+
+            <div class="link" onclick="showRegister()">Criar conta</div>
+        </div>
+
+        <!-- REGISTER -->
+        <div id="registerBox" style="display:none;">
+            <h2>Criar Conta</h2>
+
+            <input id="registerNome" placeholder="Nome">
+            <input id="registerSenha" type="password" placeholder="Senha">
+
+            <button class="primary" onclick="register()">Cadastrar</button>
+
+            <button class="secondary" onclick="showLogin()">Voltar</button>
+        </div>
+
+        <div id="error" class="error"></div>
+
+    </div>
+
+    <script src="script.js">
+    </script>
+
+</body>
+
+</html>

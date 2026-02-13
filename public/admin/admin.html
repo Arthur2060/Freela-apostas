@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Painel Admin - Apostas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>PAINEL ADMIN - SISTEMA DE APOSTAS</header>
+
+    <nav>
+        <button onclick="showTab('jogadores')" class="active">Jogadores</button>
+        <button onclick="showTab('apostas')">Apostas</button>
+        <button onclick="showTab('ranking')">Ranking</button>
+    </nav>
+
+    <!-- JOGADORES -->
+    <div id="jogadores" class="tab active">
+        <div class="grid">
+            <div class="cards" id="jogadoresCards"></div>
+
+            <div class="form">
+                <h3>Novo Jogador</h3>
+                <input id="nomeJogador" placeholder="Nome">
+                <input id="nivelJogador" type="number" placeholder="Nível">
+                <button class="primary" onclick="addJogador()">Adicionar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- APOSTAS -->
+    <div id="apostas" class="tab">
+        <div class="grid">
+            <div class="cards" id="apostasCards"></div>
+
+            <div class="form">
+                <h3>Nova Aposta</h3>
+                <select id="selectJogador1"></select>
+                <select id="selectJogador2"></select>
+                <button class="primary" onclick="addAposta()">Criar Aposta</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- RANKING -->
+    <div id="ranking" class="tab">
+        <h3>Ranking de Apostadores</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Posição</th>
+                    <th>Nome</th>
+                    <th>Pontuação</th>
+                </tr>
+            </thead>
+            <tbody id="rankingBody"></tbody>
+        </table>
+    </div>
+
+    <script src="script.js">
+    </script>
+
+</body>
+
+</html>

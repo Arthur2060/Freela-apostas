@@ -1,0 +1,70 @@
+:root {
+    --green: #1aff00;
+    --dark: #111;
+    --card: #1c1c1c;
+    --border: #2a2a2a;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: var(--dark);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: white;
+}
+
+.container {
+    background: var(--card);
+    padding: 40px;
+    border-radius: 10px;
+    width: 350px;
+    border: 1px solid var(--border);
+}
+
+h2 {
+    text-align: center;
+    color: var(--green);
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    background: #222;
+    border: 1px solid var(--border);
+    color: white;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    margin-bottom: 10px;
+}
+
+button.primary {
+    background: var(--green);
+}
+
+button.secondary {
+    background: #333;
+    color: white;
+}
+
+.link {
+    text-align: center;
+    cursor: pointer;
+    color: var(--green);
+    font-size: 14px;
+}
+
+.error {
+    color: red;
+    text-align: center;
+    margin-top: 10px;
+}

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Painel do Apostador</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>ÁREA DO APOSTADOR</header>
+
+    <nav>
+        <button onclick="showTab('apostas')" class="active">Apostas</button>
+        <button onclick="showTab('jogadores')">Jogadores</button>
+        <button onclick="showTab('ranking')">Ranking</button>
+    </nav>
+
+    <!-- APOSTAS -->
+    <div id="apostas" class="tab active">
+        <div class="cards" id="apostasCards"></div>
+    </div>
+
+    <!-- JOGADORES (somente visualização) -->
+    <div id="jogadores" class="tab">
+        <div class="cards" id="jogadoresCards"></div>
+    </div>
+
+    <!-- RANKING -->
+    <div id="ranking" class="tab">
+        <h3>Ranking</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nome</th>
+                    <th>Pontuação</th>
+                </tr>
+            </thead>
+            <tbody id="rankingBody"></tbody>
+        </table>
+    </div>
+
+    <script src="script.js">
+    </script>
+
+</body>
+
+</html>

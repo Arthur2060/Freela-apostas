@@ -1,46 +1,19 @@
 const service = require("../service/authService.js");
 
-exports.get = async (req, res) => {
+exports.register = async (req, res) => {
     try {
-        const data = await service.get();
-        res.json(data)
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
+        const data = await service.register(req.body);
+        res.status(201).json(data);
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }  
 };
 
-exports.getById = async (req, res) => {
+exports.login = async (req, res) => {
     try {
-        const data = await service.getById();
-        res.json(data)
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-};
-
-exports.add = async (req, res) => {
-    try {
-        const data = await service.add(req);
-        res.json(data)
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-};
-
-exports.update = async (req, res) => {
-    try {
-        const data = await service.update(req.params.id, req.body);
-        res.json(data)
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-};
-
-exports.delete = async (req, res) => {
-    try {
-        const data = await service.delete(req.params.id);
-        res.json(data)
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
+        const data = await service.login(req.body);
+        res.json(data);
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }  
 };
