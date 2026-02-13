@@ -1,5 +1,5 @@
 const admin = require('firebase-admin');
-const serviceAccount = require('../freela-apostas-firebase-adminsdk-fbsvc-89af620e4c.json');
+const serviceAccount = require("./firebase-admin.json");
 
 // Inicialização do Firebase Admin SDK
 admin.initializeApp({

@@ -3,18 +3,14 @@ const jwt = require("jsonwebtoken");
 const { db } = require("../config/firebase");
 
 const COLLECTION = "apostadores";
-const JWT_SECRET = "SUA_CHAVE_SUPER_SECRETA"; // depois mova para .env
+const JWT_SECRET = process.env.JWT_SECRET;
 
-// ============================
-// REGISTRAR NOVO APOSTADOR
-// ============================
 exports.register = async ({ nome, senha }) => {
 
     if (!nome || !senha) {
         throw new Error("Nome e senha são obrigatórios");
     }
 
-    // Verifica se já existe
     const snapshot = await db
         .collection(COLLECTION)
         .where("nome", "==", nome)
@@ -24,7 +20,6 @@ exports.register = async ({ nome, senha }) => {
         throw new Error("Nome já cadastrado");
     }
 
-    // Hash da senha
     const senhaHash = await bcrypt.hash(senha, 10);
 
     const newUser = {
@@ -43,9 +38,6 @@ exports.register = async ({ nome, senha }) => {
     };
 };
 
-// ============================
-// LOGIN
-// ============================
 exports.login = async ({ nome, senha }) => {
 
     if (!nome || !senha) {
@@ -64,14 +56,12 @@ exports.login = async ({ nome, senha }) => {
     const doc = snapshot.docs[0];
     const user = doc.data();
 
-    // Comparar senha
     const senhaValida = await bcrypt.compare(senha, user.senha);
 
     if (!senhaValida) {
         throw new Error("Credenciais inválidas");
     }
 
-    // Gerar token
     const token = jwt.sign(
         {
             id: doc.id,

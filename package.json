@@ -14,9 +14,22 @@
     "bcrypt": "^6.0.0",
     "body-parser": "^2.2.2",
     "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
     "express": "^5.2.1",
     "firebase-admin": "^13.6.1",
     "fs": "^0.0.1-security",
+    "pkg": "^5.8.1",
     "sqlite3": "^5.1.7"
+  },
+  "bin": "server.js",
+  "pkg": {
+    "assets": [
+      "config/firebase-admin.json",
+      ".env"
+    ],
+    "targets": [
+      "node18-win-x64"
+    ],
+    "outputPath": "dist"
   }
 }
