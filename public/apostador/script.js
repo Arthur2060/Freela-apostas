@@ -43,23 +43,31 @@ async function loadApostas() {
     const res = await fetch(`${API}/apostas`);
     const data = await res.json();
 
+    const palpites = await fetch(`${API}/palpites`);
+    const palpitesData = await palpites.json();
+
+    const palpitesFiltrados = palpitesData.filter(a => a.apostadorId === APOSTADOR_ID);
     const abertas = data.filter(a => a.resultado === null);
+    const elegiveis = abertas.filter(a => !palpitesFiltrados.some(p => p.apostaId === a.id));
 
     const container = document.getElementById("apostasCards");
     container.innerHTML = "";
 
-    abertas.forEach(a => {
+    elegiveis.forEach(async (a) => {
         
-        const jogador1 = fetch(`${API}/jogadores/${a.primeiroJogadorId}`);
-        const jogador2 = fetch(`${API}/jogadores/${a.segundoJogadorId}`);
+        const respPrimeiro = await fetch(`${API}/jogadores/${a.primeiroJogadorId}`);
+        const respSegundo = await fetch(`${API}/jogadores/${a.segundoJogadorId}`);
+
+        const primeiro = await respPrimeiro.json();
+        const segundo = await respSegundo.json();
 
 
         container.innerHTML += `
             <div class="card">
-                <p><strong>${jogador1.nome}</strong> vs <strong>${jogador2.nome}</strong></p>
+                <p><strong>${primeiro.nome}</strong> vs <strong>${segundo.nome}</strong></p>
 
                 <button class="primary" onclick="fazerPalpite('${a.id}', 0)">
-                    Vitória Jogador 1 (${a.oddVitoriaPrimeiro})
+                    Vitória ${primeiro.nome || "Jogador 1"} (${a.oddVitoriaPrimeiro})
                 </button>
 
                 <button class="secondary" onclick="fazerPalpite('${a.id}', 1)">
@@ -67,11 +75,13 @@ async function loadApostas() {
                 </button>
 
                 <button class="primary" onclick="fazerPalpite('${a.id}', 2)">
-                    Vitória Jogador 2 (${a.oddVitoriaSegundo})
+                    Vitória ${segundo.nome || "Jogador 2"} (${a.oddVitoriaSegundo})
                 </button>
             </div>
         `;
     });
+
+    loadApostas();
 }
 
 async function fazerPalpite(apostaId, valor) {

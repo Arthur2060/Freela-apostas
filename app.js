@@ -1,4 +1,9 @@
 const express = require('express');
+
+const path = require("path")
+
+require('dotenv').config({ path: path.join(__dirname, '.env') });
+
 const cors = require('cors');
 
 const palpitesRoutes = require("./routes/palpitesRoutes")
@@ -11,7 +16,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static(`public`));
+app.use(express.static(path.join(process.cwd(), "public")));
 
 app.use("/palpites", palpitesRoutes)
 app.use("/apostadores", apostadoresRoutes)

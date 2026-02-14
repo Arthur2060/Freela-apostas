@@ -126,15 +126,12 @@ async function encerrarAposta(id) {
         })
     });
 
-    alert(resultado)
-
     
     if (!res.ok) { 
         alert("Erro ao encerrar aposta: " + (await res.json()).error);
         return;
     }
     
-    alert("Aposta encerrada!");
     loadApostas();
 }
 

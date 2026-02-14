@@ -1,5 +1,5 @@
 const { db } = require("../config/firebase.js");
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 const ENTITY_NAME = "apostadores"
 

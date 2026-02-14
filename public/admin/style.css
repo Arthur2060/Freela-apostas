@@ -73,7 +73,7 @@ nav button:hover {
 
 .card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 0 15px rgba(0,255,0,0.15);
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.15);
 }
 
 .form {
@@ -82,9 +82,11 @@ nav button:hover {
     padding: 20px;
     border-radius: 10px;
     border: 1px solid var(--border);
+    height: fit-content;
 }
 
-input, select {
+input,
+select {
     width: 100%;
     padding: 10px;
     margin-bottom: 12px;
@@ -118,6 +120,17 @@ button.primary {
     font-weight: bold;
 }
 
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 10px;
+    border-bottom: 1px solid var(--border);
+}
+
 #rankingBody tr {
     justify-content: space-between;
     align-items: center;
@@ -133,19 +146,22 @@ button.primary {
 #rankingBody tr:nth-child(1) {
     background: #ccb233;
     border-left: 6px solid #f4b400;
-    color: #5a4b00; /* 👈 texto mais escuro para fundo amarelo */
+    color: #5a4b00;
+    /* 👈 texto mais escuro para fundo amarelo */
 }
 
 /* Prata */
 #rankingBody tr:nth-child(2) {
     background: #949494;
     border-left: 6px solid #9e9e9e;
-    color: #333; /* 👈 texto escuro neutro */
+    color: #333;
+    /* 👈 texto escuro neutro */
 }
 
 /* Bronze */
 #rankingBody tr:nth-child(3) {
     background: #964b00;
     border-left: 6px solid #ef6c00;
-    color: #5a2d00; /* 👈 texto escuro*/
+    color: #5a2d00;
+    /* 👈 texto escuro*/
 }

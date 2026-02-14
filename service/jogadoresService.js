@@ -1,5 +1,4 @@
 const { db } = require("../config/firebase.js");
-const bcrypt = require('bcrypt');
 
 const ENTITY_NAME = "jogador"
 
