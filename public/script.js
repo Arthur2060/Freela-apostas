@@ -26,7 +26,7 @@ async function login() {
         return;
     }
 
-    const res = await fetch(`${API}/login`, {
+    const res = await fetch(`${API}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ nome, senha })
@@ -52,7 +52,7 @@ async function register() {
     const nome = document.getElementById("registerNome").value;
     const senha = document.getElementById("registerSenha").value;
 
-    const res = await fetch(`${API}/register`, {
+    const res = await fetch(`${API}/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
