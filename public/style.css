@@ -84,3 +84,10 @@ button.secondary {
     margin-top: 10px;
     color: red;
 }
+
+#loginBox, #registerBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

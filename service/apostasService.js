@@ -7,7 +7,7 @@ exports.get = async () => {
 
     const snapshot = await db.collection("apostas").get();
 
-    const apostas = [];
+    const res = [];
 
     for (const doc of snapshot.docs) {
 
@@ -21,7 +21,7 @@ exports.get = async () => {
             .doc(data.segundoJogadorId)
             .get();
 
-        apostas.push({
+        res.push({
             id: doc.id,
             ...data,
             primeiroJogadorNome: p1.exists ? p1.data().nome : "Desconhecido",
@@ -29,7 +29,7 @@ exports.get = async () => {
         });
     }
 
-    return apostas;
+    return res;
 };
 
 

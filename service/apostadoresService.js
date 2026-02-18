@@ -6,10 +6,12 @@ const ENTITY_NAME = "apostadores"
 exports.get = async () => {
     const snapshot = await db.collection(ENTITY_NAME).get();
 
-    return snapshot.docs.map(doc => ({
+    const res = snapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data()
     }))
+    
+    return res
 }
 
 exports.getById = async (id) => {
