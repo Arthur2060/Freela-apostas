@@ -6,11 +6,11 @@ require('dotenv').config({ path: path.join(__dirname, '.env') });
 
 const cors = require('cors');
 
-const palpitesRoutes = require("../routes/palpitesRoutes")
-const apostadoresRoutes = require("../routes/apostadoresRoutes")
-const jogadoresRoutes = require("../routes/jogadoresRoutes")
-const apostasRoutes = require("../routes/apostasRoutes")
-const authRoutes = require("../routes/authRoutes")
+const palpitesRoutes = require("./routes/palpitesRoutes")
+const apostadoresRoutes = require("./routes/apostadoresRoutes")
+const jogadoresRoutes = require("./routes/jogadoresRoutes")
+const apostasRoutes = require("./routes/apostasRoutes")
+const authRoutes = require("./routes/authRoutes")
 
 const app = express();
 
