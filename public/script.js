@@ -1,5 +1,5 @@
 
-const API = "http://freela-apostas.vercel.app";
+const API = "https://freela-apostas.vercel.app";
 
 // Alternar telas
 function showRegister() {
