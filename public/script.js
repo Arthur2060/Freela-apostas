@@ -20,7 +20,7 @@ async function login() {
     const nome = document.getElementById("loginNome").value;
     const senha = document.getElementById("loginSenha").value;
 
-    if (nome === "Admin" && senha === "Admin1302") {
+    if (nome === "Admin" && senha === process.env.ADMIN_PASSWORD) {
         localStorage.setItem("admin", "true");
         window.location.href = "/admin/admin.html";
         return;
