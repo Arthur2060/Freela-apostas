@@ -1,4 +1,4 @@
-const API = "https://freela-apostas.vercel.app";
+const API = "https://freela-apostas.onrender.com/";
 const user = JSON.parse(localStorage.getItem("apostador"));
 
 if (!user || user.id == undefined) {

@@ -1,4 +1,4 @@
-const API = "https://freela-apostas.vercel.app";
+const API = "https://freela-apostas.onrender.com/";
 
 if (!localStorage.getItem("admin")) {
     window.location.href = "/";
