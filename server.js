@@ -1,5 +1,7 @@
 const app = require('./app');
 
-app.get("/test", (req, res) => {
-    res.json({ message: "Servidor rodando na Vercel!" })
+const PORT = process.env.PORT
+
+app.listen(PORT, (req, res) => {
+    console.log(`Servidor iniciado na porta ${PORT}`)
 })
