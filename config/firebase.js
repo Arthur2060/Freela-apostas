@@ -8,8 +8,6 @@ admin.initializeApp({
     }),
 });
 
-admin.auth.verifyIdToken()
-
 const db = admin.firestore();
 
 module.exports = { admin, db };
