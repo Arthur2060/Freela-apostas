@@ -1,11 +1,7 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { getAuth } = require("firebase/auth")
 const { db } = require("../config/firebase");
 
-const auth = getAuth();
-const user = auth.currentUser;
-const token = await user.getIdToken();
 const COLLECTION = "apostadores";
 const JWT_SECRET = process.env.JWT_SECRET;
 
