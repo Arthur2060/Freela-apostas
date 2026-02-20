@@ -37,3 +37,4 @@ Thumbs.db
 # Build/Dist (se você usar TypeScript ou algum bundler)
 dist/
 build/
+config/freela-apostas-firebase-adminsdk-fbsvc-d7e059a819.json
