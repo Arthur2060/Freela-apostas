@@ -27,7 +27,7 @@ async function loadJogadores() {
     select2.innerHTML = "";
 
     data.forEach(j => {
-        cards.innerHTML = `
+        cards.innerHTML += `
             <div class="card">
                 <h4>${j.nome}</h4>
                 <p>Nível: ${j.nivel}</p>
@@ -103,7 +103,7 @@ async function loadApostas() {
         const primeiro = await respPrimeiro.json();
         const segundo = await respSegundo.json();
 
-        cards.innerHTML = `
+        cards.innerHTML += `
             <div class="card">
                 <button onclick="deletarAposta('${a.id}')" class="del-aposta-button">X</button>
                 <p>
@@ -217,7 +217,7 @@ async function loadRanking() {
     tbody.innerHTML = "";
 
     data.forEach((a, index) => {
-        tbody.innerHTML = `
+        tbody.innerHTML += `
             <tr>
                 <th>${index + 1}</th>
                 <th>${a.nome}</th>
