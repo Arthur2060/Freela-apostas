@@ -11,18 +11,14 @@ exports.register = async ({ nome, senha }) => {
             throw new Error("Nome e senha são obrigatórios");
         }
 
-        const snapshot = await db.collection(ENTITY_NAME).get();
+        const snapshot = await db.collection(COLLECTION)
+            where("nome", "=", nome)
+            .limit(1)
+            .get();
 
-        const res = snapshot.docs.map(doc => ({
-            id: doc.id,
-            ...doc.data()
-        }))
-
-        res.map(ap => {
-            if (ap.nome == nome) {
-                throw new Error("Nome já cadastrado no sistema!")
-            }
-        })
+        if (!snapshot.empty) {
+            throw new Error("Usuário já cadastrado!")
+        }
 
         const senhaHash = await bcrypt.hash(senha, 10);
 
