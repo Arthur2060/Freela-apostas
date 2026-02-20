@@ -87,8 +87,8 @@ exports.login = async ({ nome, senha }) => {
             }
         }
 
-        return res.status(200).json(data);
+        return data;
     } catch (err) {
-        return res.status(401).json({ error: err.message })
+        throw new Error(err.message)
     }
 };
