@@ -1,11 +1,6 @@
 const API = "https://freela-apostas.onrender.com";
 const user = localStorage.getItem("user")
 
-if (localStorage.getItem("admin")) {
-    console.log(`Entrada não autorizada de ${user}`)
-    window.location.href = "/";
-}
-
 function showTab(id) {
     document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
     document.querySelectorAll("nav button").forEach(b => b.classList.remove("active"));
