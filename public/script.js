@@ -26,7 +26,7 @@ async function login() {
         body: JSON.stringify({ nome, senha })
     });
 
-    if (!res.ok || res.text() != "") {
+    if (!res.ok) {
         document.getElementById("error").innerText = "Login inválido!";
         return;
     }
@@ -38,9 +38,10 @@ async function login() {
 
     if (data.user.admin) {
         window.location.href = "/admin/admin.html";
-    } else {
-        window.location.href = "/apostador/apostador.html";
+        return
     }
+    
+    window.location.href = "/apostador/apostador.html";
 }
 
 // Cadastro

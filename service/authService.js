@@ -82,7 +82,7 @@ exports.login = async ({ nome, senha }) => {
             user: {
                 id: doc.id,
                 nome: user.nome,
-                admin: user.nome == "admin",
+                admin: user.nome === "admin",
                 pontuacao: user.pontuacao
             }
         }
