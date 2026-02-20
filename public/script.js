@@ -37,6 +37,7 @@ async function login() {
     localStorage.setItem("token", data.token);
 
     if (data.user.admin) {
+        localStorage.setItem("admin", true)
         window.location.href = "/admin/admin.html";
         return
     }

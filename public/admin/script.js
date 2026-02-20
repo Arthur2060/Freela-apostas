@@ -1,7 +1,7 @@
 const API = "https://freela-apostas.onrender.com";
 const user = localStorage.getItem("user")
 
-if (!user.admin) {
+if (localStorage.getItem("admin")) {
     console.log(`Entrada não autorizada de ${user}`)
     window.location.href = "/";
 }
