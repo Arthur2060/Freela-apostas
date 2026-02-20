@@ -1,13 +1,11 @@
 const admin = require('firebase-admin');
 
+const firebase_cert = require("../etc/secrets/firebase-admin.json") // Lembrar de adicionar json ao voltar para casa
+
 admin.initializeApp({
-    credential: admin.credential.cert({
-        projectId: process.env.FIREBASE_PROJECT_ID,
-        clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-        privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n"),
-    }),
+    credential: admin.credential.cert(firebase_cert),
 });
 
 const db = admin.firestore();
 
-module.exports = { admin, db };
+module.exports = { db, admin };
