@@ -31,7 +31,7 @@ async function loadJogadores() {
             <div class="card">
                 <h4>${j.nome}</h4>
                 <p>Nível: ${j.nivel}</p>
-                <button onclick=deletarJogador(${j.id}) class="del-btn">Deletar</button>
+                <button onclick="deletarJogadores('${j.id}')" class="del-btn">Deletar</button>
             </div>
         `;
 
@@ -54,26 +54,33 @@ async function addJogador() {
 }
 
 async function deletarJogadores(id) {
+    if (!window.confirm("Você quer mesmo deletar este jogador? (As apostas associadas a ele se manteram)")) {
+        return
+    }
     const resp = await fetch(`${API}/jogadores/${id}`, {
         method: "DELETE",
-        headers: {"Content-type": "application/json"},
+        headers: { "Content-type": "application/json" },
     });
 
     if (resp.ok) {
-        alert(`Aposta deletada com sucesso! Nenhum ponto contabilizado.`)
+        alert(`Jogador deletado com sucesso! As apostas associadas permanecerão.`)
     }
 
     loadJogadores()
 }
 
 async function deletarAposta(id) {
+    if (!window.confirm("Você quer mesmo deletar está aposta? (Nenhum apostador será beneficiado)")) {
+        return
+    }
+
     const resp = await fetch(`${API}/apostas/${id}`, {
         method: "DELETE",
-        headers: {"Content-type": "application/json"},
+        headers: { "Content-type": "application/json" },
     });
 
     if (resp.ok) {
-        alert(`Aposta deletada com sucesso! Nenhum ponto contabilizado.`)
+        alert(`Aposta deletado com sucesso!`)
     }
 
     loadApostas()
@@ -98,7 +105,7 @@ async function loadApostas() {
 
         cards.innerHTML += `
             <div class="card">
-                <button onclick=deletarAposta(${a.id}) class="del-aposta-button">X</button>
+                <button onclick="deletarAposta('${a.id}')" class="del-aposta-button">X</button>
                 <p>
                     <strong>${primeiro.nome || "Jogador 1"}</strong> 
                     vs 
@@ -117,9 +124,8 @@ async function loadApostas() {
                     ${aberta ? "🟢 Aberta" : "🔴 Encerrada"}
                 </p>
 
-                ${
-                    aberta
-                    ? `
+                ${aberta
+                ? `
                         <select id="resultado-${a.id}">
                             <option value="0">Vitória ${primeiro.nome || "Jogador 1"}</option>
                             <option value="1">Empate</option>
@@ -130,14 +136,13 @@ async function loadApostas() {
                             Encerrar Aposta
                         </button>
                       `
-                    : `
-                        <p>Resultado: ${
-                            a.resultado == 0 ? a.primeiroJogadorNome :
-                            a.resultado == 1 ? "Empate" :
-                            a.segundoJogadorNome
-                        }</p>
+                : `
+                        <p>Resultado: ${a.resultado == 0 ? a.primeiroJogadorNome :
+                    a.resultado == 1 ? "Empate" :
+                        a.segundoJogadorNome
+                }</p>
                       `
-                }
+            }
             </div>
         `;
     });
@@ -155,12 +160,12 @@ async function encerrarAposta(id) {
         })
     });
 
-    
-    if (!res.ok) { 
+
+    if (!res.ok) {
         alert("Erro ao encerrar aposta: " + (await res.json()).error);
         return;
     }
-    
+
     loadApostas();
 }
 
@@ -186,9 +191,13 @@ function logout() {
 }
 
 async function deletarApostador(id) {
+    if (!window.confirm("Você quer mesmo deletar este apostador?")) {
+        return
+    }
+
     const resp = await fetch(`${API}/apostadores/${id}`, {
         method: "DELETE",
-        headers: {"Content-type": "application/json"},
+        headers: { "Content-type": "application/json" },
     });
 
     if (resp.ok) {
@@ -213,7 +222,7 @@ async function loadRanking() {
                 <th>${index + 1}</th>
                 <th>${a.nome}</th>
                 <th>${a.pontuacao || 0}</th>
-                <th><button onclick=deletarApostador(${a.id}) class="del-btn"/>Deletar conta</button></th>
+                <th><button onclick="deletarApostador('${a.id}')" class="del-btn">Deletar conta</button></th>
             </tr>
         `;
     });
