@@ -1,9 +1,8 @@
 const API = "https://freela-apostas.onrender.com";
-
 const user = localStorage.getItem("user")
 
 if (!user.admin) {
-    console.log(`Entrada não autorizada ${user}`)
+    console.log(`Entrada não autorizada de ${user}`)
     window.location.href = "/";
 }
 
@@ -13,6 +12,10 @@ function showTab(id) {
 
     document.getElementById(id).classList.add("active");
     event.target.classList.add("active");
+
+    loadJogadores();
+    loadApostas();
+    loadRanking();
 }
 
 async function loadJogadores() {

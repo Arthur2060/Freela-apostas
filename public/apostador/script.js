@@ -1,11 +1,10 @@
-const API = "https://freela-apostas.onrender.com/";
-const user = JSON.parse(localStorage.getItem("apostador"));
+const API = "https://freela-apostas.onrender.com";
+const user = JSON.parse(localStorage.getItem("user"));
+const APOSTADOR_ID = user.id;
 
-if (!user || user.id == undefined) {
+if (!APOSTADOR_ID || APOSTADOR_ID == undefined) {
     window.location.href = "/";
 }
-
-const APOSTADOR_ID = user.id; // ✅ agora funciona
 
 document.querySelector("#header-nome").innerText = user.nome;
 

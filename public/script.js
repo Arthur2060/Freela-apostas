@@ -26,19 +26,21 @@ async function login() {
         body: JSON.stringify({ nome, senha })
     });
 
-    if (!res.ok) {
+    if (!res.ok || res.text() != "") {
         document.getElementById("error").innerText = "Login inválido!";
         return;
     }
 
-    // salva apenas o user
-    localStorage.setItem("user", JSON.stringify(res.user));
-    localStorage.setItem("token", res.token);
+    const data = await res.json();
 
-    if (localStorage.getItem("user").admin) {
-        window.location.href = "/admin/admin.html"
-    } 
-    window.location.href = "/apostador/apostador.html"
+    localStorage.setItem("user", JSON.stringify(data.user));
+    localStorage.setItem("token", data.token);
+
+    if (data.user.admin) {
+        window.location.href = "/admin/admin.html";
+    } else {
+        window.location.href = "/apostador/apostador.html";
+    }
 }
 
 // Cadastro

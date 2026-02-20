@@ -54,13 +54,15 @@ exports.login = async ({ nome, senha }) => {
         const snapshot = await db
             .collection(COLLECTION)
             .where("nome", "==", nome)
+            .limit(1)
             .get();
 
-        if (snapshot.empty) {
+        if (snapshot.empty || !snapshot) {
             throw new Error("Credenciais inválidas");
         }
 
         const doc = snapshot.docs[0];
+
         const user = doc.data();
 
         const senhaValida = await bcrypt.compare(senha, user.senha);
@@ -78,16 +80,19 @@ exports.login = async ({ nome, senha }) => {
             { expiresIn: "2h" }
         );
 
-        return {
-            token,
+        const data = 
+        {
+            token: token,
             user: {
                 id: doc.id,
                 nome: user.nome,
-                admin: (user.nome == admin),
+                admin: user.nome == "admin",
                 pontuacao: user.pontuacao
             }
-        };
+        }
+
+        return res.status(200).json(data);
     } catch (err) {
-        console.log(err.message)
+        return res.status(401).json({ error: err.message })
     }
 };
