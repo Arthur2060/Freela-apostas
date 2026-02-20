@@ -1,8 +1,8 @@
-const { initializeApp } = require('firebase-admin');
+const admin = require('firebase-admin');
 
-const firebase_cert = require("/etc/secrets/firebase-admin.json") // Lembrar de adicionar json ao voltar para casa
+const firebase_cert = require("./freela-apostas-firebase-adminsdk-fbsvc-89af620e4c.json") // Lembrar de adicionar json ao voltar para casa
 
-initializeApp({
+admin.initializeApp({
     credential: admin.credential.cert(firebase_cert),
 });
 
