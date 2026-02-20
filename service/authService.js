@@ -12,7 +12,7 @@ exports.register = async ({ nome, senha }) => {
         }
 
         const snapshot = await db.collection(COLLECTION)
-            where("nome", "=", nome)
+            .where("nome", "=", nome)
             .limit(1)
             .get();
 
