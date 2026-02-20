@@ -1,5 +1,5 @@
 
-const API = "https://freela-apostas.onrender.com/";
+const API = "https://freela-apostas.onrender.com";
 
 // Alternar telas
 function showRegister() {
@@ -20,12 +20,6 @@ async function login() {
     const nome = document.getElementById("loginNome").value;
     const senha = document.getElementById("loginSenha").value;
 
-    if (nome === "Admin" && senha === process.env.ADMIN_PASSWORD) {
-        localStorage.setItem("admin", "true");
-        window.location.href = "/admin/admin.html";
-        return;
-    }
-
     const res = await fetch(`${API}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -37,13 +31,14 @@ async function login() {
         return;
     }
 
-    const data = await res.json();
-
     // salva apenas o user
-    localStorage.setItem("apostador", JSON.stringify(data.user));
-    localStorage.setItem("token", data.token);
+    localStorage.setItem("user", JSON.stringify(res.user));
+    localStorage.setItem("token", res.token);
 
-    window.location.href = "/apostador/apostador.html";
+    if (localStorage.getItem("user").admin) {
+        window.location.href = "/admin/admin.html"
+    } 
+    window.location.href = "/apostador/apostador.html"
 }
 
 // Cadastro

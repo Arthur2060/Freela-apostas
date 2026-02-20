@@ -1,10 +1,9 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { db } = require("../config/firebase");
+const { db, admin } = require("../config/firebase");
 
 const COLLECTION = "apostadores";
 const JWT_SECRET = process.env.JWT_SECRET;
-
 
 exports.register = async ({ nome, senha }) => {
     try {
@@ -84,6 +83,7 @@ exports.login = async ({ nome, senha }) => {
             user: {
                 id: doc.id,
                 nome: user.nome,
+                admin: (user.nome == admin),
                 pontuacao: user.pontuacao
             }
         };
