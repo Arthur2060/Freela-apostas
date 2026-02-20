@@ -14,80 +14,95 @@ exports.get = async () => {
 };
 
 exports.getById = async (id) => {
-    const doc = await db.collection(ENTITY_NAME).doc(id).get();
+    try {
+        const doc = await db.collection(ENTITY_NAME).doc(id).get();
 
-    if (!doc.exists) {
-        throw new Error("Palpite não encontrado!");
+        if (!doc.exists) {
+            throw new Error("Palpite não encontrado!");
+        }
+
+        return {
+            id: doc.id,
+            ...doc.data()
+        };
+    } catch (err) {
+        throw new Error(err.message)
     }
-
-    return {
-        id: doc.id,
-        ...doc.data()
-    };
 };
 
 exports.add = async ({ apostaId, apostadorId, valor }) => {
+    try {
+        const apostaRef = db.collection("apostas").doc(apostaId);
+        const apostadorRef = db.collection("apostadores").doc(apostadorId);
 
-    const apostaRef = db.collection("apostas").doc(apostaId);
-    const apostadorRef = db.collection("apostadores").doc(apostadorId);
+        const [aposta, apostador] = await Promise.all([
+            apostaRef.get(),
+            apostadorRef.get()
+        ]);
 
-    const [aposta, apostador] = await Promise.all([
-        apostaRef.get(),
-        apostadorRef.get()
-    ]);
+        if (!aposta.exists) {
+            throw new Error("Aposta não encontrada!");
+        }
 
-    if (!aposta.exists) {
-        throw new Error("Aposta não encontrada!");
+        if (!apostador.exists) {
+            throw new Error("Apostador não encontrado!");
+        }
+
+        if (aposta.data().resultado !== null) {
+            throw new Error("Aposta já encerrada!");
+        }
+
+        const newEntity = {
+            apostaId,
+            apostadorId,
+            valor,
+            createdAt: new Date()
+        };
+
+        const resp = await db.collection(ENTITY_NAME).add(newEntity);
+
+        return {
+            id: resp.id,
+            ...newEntity
+        }
+    } catch (err) {
+        throw new Error(err.message)
     }
-
-    if (!apostador.exists) {
-        throw new Error("Apostador não encontrado!");
-    }
-
-    if (aposta.data().resultado !== null) {
-        throw new Error("Aposta já encerrada!");
-    }
-
-    const newEntity = {
-        apostaId,
-        apostadorId,
-        valor,
-        createdAt: new Date()
-    };
-
-    const resp = await db.collection(ENTITY_NAME).add(newEntity);
-
-    return {
-        id: resp.id,
-        ...newEntity
-    };
 };
 
 exports.update = async (id, entity) => {
-    const docRef = db.collection(ENTITY_NAME).doc(id);
-    const doc = await docRef.get();
+    try {
+        const docRef = db.collection(ENTITY_NAME).doc(id);
+        const doc = await docRef.get();
 
-    if (!doc.exists) {
-        throw new Error("Palpite não encontrado!");
+        if (!doc.exists) {
+            throw new Error("Palpite não encontrado!");
+        }
+
+        await docRef.update(entity);
+
+        return {
+            id,
+            ...entity
+        };
+    } catch (err) {
+        throw new Error(err.message)
     }
-
-    await docRef.update(entity);
-
-    return {
-        id,
-        ...entity
-    };
 };
 
 exports.delete = async (id) => {
-    const docRef = db.collection(ENTITY_NAME).doc(id);
-    const doc = await docRef.get();
+    try {
+        const docRef = db.collection(ENTITY_NAME).doc(id);
+        const doc = await docRef.get();
 
-    if (!doc.exists) {
-        throw new Error("Palpite não encontrado!");
+        if (!doc.exists) {
+            throw new Error("Palpite não encontrado!");
+        }
+
+        await docRef.delete();
+
+        return { message: "Palpite deletado com sucesso!" };
+    } catch (err) {
+        throw new Error(err.message)
     }
-
-    await docRef.delete();
-
-    return { message: "Palpite deletado com sucesso!" };
 };

@@ -10,71 +10,87 @@ exports.get = async () => {
         id: doc.id,
         ...doc.data()
     }))
-    
+
     return res
 }
 
 exports.getById = async (id) => {
-    const docRef = db.collection(ENTITY_NAME).doc(id);
-    const doc = await docRef.get();
+    try {
+        const docRef = db.collection(ENTITY_NAME).doc(id);
+        const doc = await docRef.get();
 
-    if (!doc.exists) {
-        throw new Error("Entidade não encontrada!");
+        if (!doc.exists) {
+            throw new Error("Entidade não encontrada!");
+        }
+
+        return {
+            id: id,
+            ...doc.data()
+        };
+    } catch (err) {
+        throw new Error(err.message);
     }
-
-    return {
-        id: id,
-        ...doc.data()
-    };
 }
 
 exports.add = async (entity) => {
-    const {senha, ...rest} = entity;
+    try {
+        const { senha, ...rest } = entity;
 
-    const hashSenha = await bcrypt.hash(senha, 10)
+        const hashSenha = await bcrypt.hash(senha, 10)
 
-    const newEntity = {
-        ...rest,
-        senha: hashSenha,
-        pontuacao: 0,
+        const newEntity = {
+            ...rest,
+            senha: hashSenha,
+            pontuacao: 0,
+        }
+
+        const resp = await db.collection(ENTITY_NAME).add(newEntity);
+
+        return {
+            id: resp.id,
+            ...newEntity
+        };
+    } catch (err) {
+        throw new Error(err.message);
     }
-
-    const resp = await db.collection(ENTITY_NAME).add(newEntity);
-
-    return {
-        id: resp.id,
-        ...newEntity
-    };
 }
 
 exports.update = async (id, entity) => {
-    const docRef = db.collection(ENTITY_NAME).doc(id);
-    const doc = await docRef.get();
+    try {
+        const docRef = db.collection(ENTITY_NAME).doc(id);
+        const doc = await docRef.get();
 
-    if (!doc.exists) {
-        throw new Error("Entidade não encontrada!");
+        if (!doc.exists) {
+            throw new Error("Entidade não encontrada!");
+        }
+
+        if (entity.senha) {
+            entity.senha = await bcrypt.hash(entity.senha, 10);
+        }
+
+        await docRef.update(entity)
+
+        return {
+            id,
+            ...entity
+        };
+    } catch (err) {
+        throw new Error(err.message);
     }
-
-    if (entity.senha) {
-        entity.senha = await bcrypt.hash(entity.senha, 10);
-    }
-
-    await docRef.update(entity)
-
-    return {
-        id,
-        ...entity
-    };
 }
 
 exports.delete = async (id) => {
-    const docRef = db.collection(ENTITY_NAME).doc(id);
-    const doc = await docRef.get();
+    try {
+        const docRef = db.collection(ENTITY_NAME).doc(id);
+        const doc = await docRef.get();
 
-    if (!doc.exists) {
-        throw new Error("Entidade não encontrada!");
+        if (!doc.exists) {
+            throw new Error("Entidade não encontrada!");
+        }
+
+        await docRef.delete();
+        return { message: "apostador deletado com sucesso!" }
+    } catch (err) {
+        throw new Error(err.message);
     }
-
-    await docRef.delete();
-    return { message: "apostador deletado com sucesso!" }
 }
