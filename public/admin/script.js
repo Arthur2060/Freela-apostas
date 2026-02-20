@@ -31,6 +31,7 @@ async function loadJogadores() {
             <div class="card">
                 <h4>${j.nome}</h4>
                 <p>Nível: ${j.nivel}</p>
+                <button onclick=deletarJogador(${j.id}) class="del-btn">Deletar</button>
             </div>
         `;
 
@@ -52,6 +53,32 @@ async function addJogador() {
     loadJogadores();
 }
 
+async function deletarJogadores(id) {
+    const resp = await fetch(`${API}/jogadores/${id}`, {
+        method: "DELETE",
+        headers: {"Content-type": "application/json"},
+    });
+
+    if (resp.ok) {
+        alert(`Aposta deletada com sucesso! Nenhum ponto contabilizado.`)
+    }
+
+    loadJogadores()
+}
+
+async function deletarAposta(id) {
+    const resp = await fetch(`${API}/apostas/${id}`, {
+        method: "DELETE",
+        headers: {"Content-type": "application/json"},
+    });
+
+    if (resp.ok) {
+        alert(`Aposta deletada com sucesso! Nenhum ponto contabilizado.`)
+    }
+
+    loadApostas()
+}
+
 async function loadApostas() {
     const res = await fetch(`${API}/apostas`);
     const data = await res.json();
@@ -71,6 +98,7 @@ async function loadApostas() {
 
         cards.innerHTML += `
             <div class="card">
+                <button onclick=deletarAposta(${a.id}) class="del-aposta-button">X</button>
                 <p>
                     <strong>${primeiro.nome || "Jogador 1"}</strong> 
                     vs 
@@ -136,7 +164,6 @@ async function encerrarAposta(id) {
     loadApostas();
 }
 
-
 async function addAposta() {
     const p1 = document.getElementById("selectJogador1").value;
     const p2 = document.getElementById("selectJogador2").value;
@@ -158,6 +185,19 @@ function logout() {
     window.location.href = "/";
 }
 
+async function deletarApostador(id) {
+    const resp = await fetch(`${API}/apostadores/${id}`, {
+        method: "DELETE",
+        headers: {"Content-type": "application/json"},
+    });
+
+    if (resp.ok) {
+        alert(`Conta deletada com sucesso!`)
+    }
+
+    loadRanking()
+}
+
 async function loadRanking() {
     const res = await fetch(`${API}/apostadores`);
     const data = await res.json();
@@ -173,6 +213,7 @@ async function loadRanking() {
                 <th>${index + 1}</th>
                 <th>${a.nome}</th>
                 <th>${a.pontuacao || 0}</th>
+                <th><button onclick=deletarApostador(${a.id}) class="del-btn"/>Deletar conta</button></th>
             </tr>
         `;
     });

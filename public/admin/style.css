@@ -123,6 +123,23 @@ button.primary {
     font-weight: bold;
 }
 
+.del-btn {
+    padding: 8px 14px;
+    background: #e53935;
+    color: white;
+    border: black 1px solid;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.del-aposta-button {
+    background-color: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
