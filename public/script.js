@@ -63,8 +63,6 @@ async function register() {
         document.getElementById("error").innerText = "Erro ao criar conta!";
         return;
     }
-
-    alert("Conta criada com sucesso!");
-
+    
     showLogin();
 }

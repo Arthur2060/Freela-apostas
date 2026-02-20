@@ -37,7 +37,7 @@ exports.register = async ({ nome, senha }) => {
             pontuacao: 0
         };
     } catch (err) {
-        console.log(err.message);
+        throw new Error(err.message);
     }
 };
 
